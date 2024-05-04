@@ -18,7 +18,7 @@ public class Agenda {
     private Boolean tecnico2;
     private Boolean tecnico3;
 
-    public Agenda() {
+    public Agenda(String nome, String mes, String data, String hora, String tecnico1, String tecnico2, String tecnico3) {
 
     }
 
