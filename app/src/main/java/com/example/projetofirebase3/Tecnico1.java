@@ -9,6 +9,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Tecnico1 {
+
+    private String tecnico1;
     private String nome;
     private String data;
     private String hora;
@@ -20,31 +22,30 @@ public class Tecnico1 {
 
     }
 
-    public Tecnico1(String data, String hora, String dia, String minutos, String mes, String nome) {
+    public Tecnico1(String tecnico1, String data, String hora, String dia, String minutos, String mes, String nome) {
 
+        this.tecnico1 = tecnico1;
         this.nome = nome;
         this.data = data;
         this.hora = hora;
         this.dia = dia;
         this.minutos = minutos;
         this.mes = mes;
-
     }
 
     public String getValue() {
-
-        return nome + data + hora + dia + minutos + mes;
+        return tecnico1 + data + hora + dia + minutos + mes + nome;
     }
 
-    public String getNome() {
-        return nome;
+    public String getTecnico3() {
+        return tecnico1;
     }
 
-    String getData() {
+    public String getData() {
         return data;
     }
 
-    String getHora() {
+    public String getHora() {
         return hora;
     }
 
@@ -60,52 +61,46 @@ public class Tecnico1 {
         return mes;
     }
 
-    // Criar uma referência ao banco de dados firebase....
+    String getNome() {
+        return nome;
+    }
+
+    // Salvar os dados dos Técnicos1...
     DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
-    // Função para gravar um objeto Dados no banco de dados firabase....
     public void SalvarDadosUsuario(Tecnico1 tecnico1) {
-        String key = database.getKey();
-        database.child("tecnico1").push().getKey();
-        // Gravar o objeto Dados no banco de dados firebase sob a chave gerada....
 
-        database.child("pessoa").child(key).setValue(tecnico1);
+        String key = database.getKey();
+
+        // Gravar o objeto Dados no banco de dados firebase sob a chave gerada....
+        database.child("tecnico1").push().getKey();
+
         // Função para ler todos os objetos Dados do banco de dados firebase....
+        database.child("tecnico1").child(key).setValue(tecnico1);
     }
 
     // Função para ler todos os objetos Dados do banco de dados firebase....
     public void SalvarDadosUsuario() {
-        // Obter uma referência à lista de dados armazenados no banco de dados firebase....
 
-        DatabaseReference dadosRef = database.child("tecnico1");
+        DatabaseReference dadosRef = database.child("tecnicos1");
 
         dadosRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Iterar sobre os snapshots e converter cada um em um objeto Dados...
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
                     Tecnico1 tecnico1 = snapshot.getValue(Tecnico1.class);
-
-                    // Fazer algo com o objetos Dados, como imprimir na tela....
-
-                    System.out.println(tecnico1.getData());
-                    System.out.println(tecnico1.getDia());
-                    System.out.println(tecnico1.getHora());
-                    System.out.println(tecnico1.getMinutos());
-                    System.out.println(tecnico1.getMes());
-                    System.out.println(tecnico1.getNome());
-                    System.out.println("-------------------------------");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
                 // Tratar o erro de leitura dos dados....
-                System.out.println("Falha ao ler os dados.");
+                System.out.print("Falha ao ler os dados.");
                 databaseError.getMessage();
+
             }
         });
+
     }
 }

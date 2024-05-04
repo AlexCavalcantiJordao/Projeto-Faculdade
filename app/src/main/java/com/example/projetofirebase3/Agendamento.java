@@ -81,7 +81,8 @@ public class Agendamento extends AppCompatActivity {
             while (hora.isEmpty()) {
                 FirebaseAuth.getInstance().signOut();
                 mensagens(view, "Preencha o horário", "#FF0000");
-            } if (hora.compareTo("8:00") < 0 || hora.compareTo("17:00") > 0) {
+            }
+            if (hora.compareTo("8:00") < 0 || hora.compareTo("17:00") > 0) {
                 mensagens(view, "Suporte Técnico não está em funcionamento - horário é das 08 Horas : 00 minutos ás 17 Horas : 00 minutos.", "#FF0000");
                 mensagens(view, "Coloque uma data", "#FF0000");
 
@@ -92,7 +93,7 @@ public class Agendamento extends AppCompatActivity {
                 SalvarDadosUsuario(view, nome, "Pedro Paulo", data, hora);
 
             } if (tecnico3 && !data.isEmpty() && !hora.isEmpty()) {
-                SalvarDadosUsuario(view, nome, "Junior Pressato", data, hora);
+                SalvarDadosUsuario(view, nome, "Lilian Cavalcanti", data, hora);
 
             } else {
                 mensagens(view, "Escolha um técnico", "#FF0000");
@@ -124,7 +125,16 @@ public class Agendamento extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
                     Log.d("entrou", "entrou " + task.isSuccessful());
+                    SalvarDadosUsuario(view, nome, "Alex Fonseca", data, hora);
+                }
+
+                if (task.isSuccessful()) {
+                    Log.d("entrou", "entrou " + task.isSuccessful());
                     SalvarDadosUsuario(view, nome, "Pedro Paulo", data, hora);
+                }
+                if (task.isSuccessful()) {
+                    Log.d("entrou", "entrou " + task.isSuccessful());
+                    SalvarDadosUsuario(view, nome, "Lilian Cavalcanti", data, hora);
 
                 } else {
                     String erro;
@@ -142,6 +152,7 @@ public class Agendamento extends AppCompatActivity {
         });
 
     }
+
     private void mensagens(View view, String mensagem, String cor) {
         Snackbar snackbar = Snackbar.make(view, mensagem, Snackbar.LENGTH_SHORT);
         snackbar.setBackgroundTint(Color.parseColor(cor));
@@ -149,7 +160,7 @@ public class Agendamento extends AppCompatActivity {
         snackbar.show();
     }
 
-    private void SalvarDadosUsuario(View view, String nome, String s, String data, String hora) {
+    private void SalvarDadosUsuario(View view, String nome, String tecnico1, String tecnico2, String tecnico3) {
 
         String agenda = btAgendar.getText().toString();
         FirebaseFirestore db = FirebaseFirestore.getInstance();

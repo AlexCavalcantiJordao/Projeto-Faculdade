@@ -18,20 +18,20 @@ public class Agenda {
     private Boolean tecnico2;
     private Boolean tecnico3;
 
-    public Agenda(String nome, String mes, String data, String hora, String profissional, String tecnico1, String tecnico2) {
+    public Agenda() {
 
     }
 
-    public Agenda(String data, String hora, String minutos, String mes, String nome, boolean tecnico1, boolean tecnico2, boolean tecnico3) {
+    public Agenda(String data, String hora, String minutos, String mes, String nome, String tecnico1, String tecnico2, String tecnico3) {
 
         this.data = data;
         this.hora = hora;
         this.minutos = minutos;
         this.mes = mes;
         this.nome = nome;
-        this.tecnico1 = tecnico1;
-        this.tecnico2 = tecnico2;
-        this.tecnico3 = tecnico3;
+        this.tecnico1 = Boolean.valueOf(tecnico1);
+        this.tecnico2 = Boolean.valueOf(tecnico2);
+        this.tecnico3 = Boolean.valueOf(tecnico3);
 
     }
 

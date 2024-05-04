@@ -89,14 +89,14 @@ public class Tecnico3 {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Tecnico2 tecnico2 = snapshot.getValue(Tecnico2.class);
+                    Tecnico3 tecnico3 = snapshot.getValue(Tecnico3.class);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Tratar o erro de leitura dos dados....
-                System.out.println("Falha ao ler os dados.");
+                System.out.print("Falha ao ler os dados.");
                 databaseError.getMessage();
 
             }
