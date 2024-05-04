@@ -77,27 +77,31 @@ public class Agendamento extends AppCompatActivity {
             boolean tecnico1 = binding.tecnico1.isChecked();
             boolean tecnico2 = binding.tecnico2.isChecked();
             boolean tecnico3 = binding.tecnico3.isChecked();
-            if (hora.isEmpty()) {
-                FirebaseAuth.getInstance().signOut();
-                    mensagens(view, "Preencha o horário", "#FF0000");
-                } else if (hora.compareTo("8:00") < 0 || hora.compareTo("17:00") > 0) {
-                    mensagens(view, "Suporte Técnico não está em funcionamento - horário é das 08 Horas : 00 minutos ás 17 Horas : 00 minutos.", "#FF0000");
-                } else if (data.isEmpty()) {
-                    mensagens(view, "Coloque uma data", "#FF0000");
-                } else if (tecnico1 && !data.isEmpty() && !hora.isEmpty()) {
-                    SalvarDadosUsuario();
-                } else if (tecnico2 && !data.isEmpty() && !hora.isEmpty()) {
-                    SalvarDadosUsuario();
-                } else if (tecnico3 && !data.isEmpty() && !hora.isEmpty()) {
-                    SalvarDadosUsuario();
-                } else {
-                    mensagens(view, "Escolha um técnico", "#FF0000");
 
-                }
+            while (hora.isEmpty()) {
+                FirebaseAuth.getInstance().signOut();
+                mensagens(view, "Preencha o horário", "#FF0000");
+            } if (hora.compareTo("8:00") < 0 || hora.compareTo("17:00") > 0) {
+                mensagens(view, "Suporte Técnico não está em funcionamento - horário é das 08 Horas : 00 minutos ás 17 Horas : 00 minutos.", "#FF0000");
+                mensagens(view, "Coloque uma data", "#FF0000");
+
+            } if (tecnico1 && !data.isEmpty() && !hora.isEmpty()) {
+                SalvarDadosUsuario(view, nome, "Alex Fonseca", data, hora);
+
+            } if (tecnico2 && !data.isEmpty() && !hora.isEmpty()) {
+                SalvarDadosUsuario(view, nome, "Pedro Paulo", data, hora);
+
+            } if (tecnico3 && !data.isEmpty() && !hora.isEmpty()) {
+                SalvarDadosUsuario(view, nome, "Junior Pressato", data, hora);
+
+            } else {
+                mensagens(view, "Escolha um técnico", "#FF0000");
+
+            }
         });
     }
 
-    private void CadastrarUsuario(View v) {
+    private void CadastrarUsuario(View view) {
 
         String nome = edit_nome.getText().toString();
         String mes = edit_mes.getText().toString();
@@ -107,8 +111,7 @@ public class Agendamento extends AppCompatActivity {
         String tecnico2 = text_tecnico2.getText().toString();
         String tecnico3 = text_tecnico3.getText().toString();
 
-        System.out.println("Numeração " + nome + mes + data + hora);
-
+        System.out.println("Numeração " + nome + mes + data + hora + tecnico1 + tecnico2 + tecnico3);
         // Criar um ID único para a pessoa no Firebase
         String usuarioID = databaseReference.push().getKey();
         Agenda agenda = new Agenda(nome, mes, data, hora, tecnico1, tecnico2, tecnico3);
@@ -121,19 +124,16 @@ public class Agendamento extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
                     Log.d("entrou", "entrou " + task.isSuccessful());
-                    SalvarDadosUsuario();
-
+                    SalvarDadosUsuario(view, nome, "Pedro Paulo", data, hora);
 
                 } else {
                     String erro;
                     try {
                         throw task.getException();
-
                     } catch (Exception e) {
-
                         erro = "Erro ao não preencher as todas as tabelas.";
                     }
-                    Snackbar snackbar = Snackbar.make(v, erro, Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(view, erro, Snackbar.LENGTH_SHORT);
                     snackbar.setBackgroundTint(Color.WHITE);
                     snackbar.setTextColor(Color.BLACK);
                     snackbar.show();
@@ -142,7 +142,6 @@ public class Agendamento extends AppCompatActivity {
         });
 
     }
-
     private void mensagens(View view, String mensagem, String cor) {
         Snackbar snackbar = Snackbar.make(view, mensagem, Snackbar.LENGTH_SHORT);
         snackbar.setBackgroundTint(Color.parseColor(cor));
@@ -150,7 +149,7 @@ public class Agendamento extends AppCompatActivity {
         snackbar.show();
     }
 
-    private void SalvarDadosUsuario() {
+    private void SalvarDadosUsuario(View view, String nome, String s, String data, String hora) {
 
         String agenda = btAgendar.getText().toString();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
